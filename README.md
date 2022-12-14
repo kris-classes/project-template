@@ -32,3 +32,8 @@ Components are loaded from the `components/` directory. The React ones have a `.
 `ReactExample.jsx` and `ReactExample.css` show how to do simple components that don't do anything.
 
 To make one page link to another just add an `<a href="/my_new_link>Click me</a>` to wherever you want.
+
+
+## FAQ
+
+If you get 'You must set a region' run the `aws configure` command and set `us-west-2` or something equivalent as your region.
