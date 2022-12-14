@@ -1,0 +1,26 @@
+---
+import Example from "../components/Example.astro";
+import MyReactComponent from "../components/ReactExample.jsx";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<h1>Astro</h1>
+		<Example />
+		<!-- Differences between component rendering/hydration: https://docs.astro.build/en/core-concepts/framework-components/#hydrating-interactive-components -->
+		<MyReactComponent /> <!-- This is rendered on the server-side, so can't dynamically hydrate data. -->
+		<MyReactComponent client:only="react" /> <!-- This is rendered on the client-side, so can. -->
+		<hr />
+		<ul>
+			<li><a href="/another_page" class="text-blue-700 text-underline">Click here for the list of actors.</a></li>
+			<li><a href="/time" class="text-red-700 text-underline">Click here for the current time.</a></li>
+		</ul>
+	</body>
+</html>
