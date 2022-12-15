@@ -2,3 +2,4 @@ fastapi
 uvicorn
 boto3
 awscli
+python-multipart
