@@ -1,8 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import queries
-import os
 import boto3
 
 # in terminal uvicorn main:app --reload
@@ -13,6 +12,8 @@ app = FastAPI(docs_url="/")
 # Create an EC2 client
 ec2 = boto3.client("ec2")
 
+# Configure S3 bucket
+S3_BUCKET_NAME = "Your Bucket Name Here"
 
 origins = [
     "http://127.0.0.1:3000",
@@ -64,3 +65,13 @@ def list_ec2():
             inst["instance_key_pair_name"] = instance["KeyName"]
             instance_list.append(inst)
     return instance_list
+
+@app.post("/upload")
+async def upload(file: UploadFile):
+    # Connect to S3
+    s3 = boto3.client("s3")
+    # print(file)
+    # Upload the file to the S3 bucket
+    s3.upload_fileobj(file.file, S3_BUCKET_NAME, file.filename)
+
+    return {"message": "File successfully uploaded to S3 bucket"}
