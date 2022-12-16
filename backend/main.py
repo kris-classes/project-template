@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, WebSocket, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import queries
@@ -75,3 +75,11 @@ async def upload(file: UploadFile):
     s3.upload_fileobj(file.file, S3_BUCKET_NAME, file.filename)
 
     return {"message": "File successfully uploaded to S3 bucket"}
+
+
+@app.websocket('/ws')
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"{datetime.now().strftime('%H:%m:%S')}: Message response from FastAPI was: {data}")
